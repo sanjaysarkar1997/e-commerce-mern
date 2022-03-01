@@ -42,11 +42,7 @@ router.post(
 );
 
 // user routes
-router.get(
-  "/get-all-active-products",
-  isAuthenticatedUser,
-  getAllActiveProducts
-);
-router.get("/get-product/:id", isAuthenticatedUser, getProduct);
+router.get("/get-all-active-products", getAllActiveProducts);
+router.get("/get-product/:id", getProduct);
 
 export default router;

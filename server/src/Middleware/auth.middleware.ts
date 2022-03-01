@@ -11,7 +11,6 @@ const isAuthenticatedUser = async (req: any, res: any, next: any) => {
       infoLog(`Request came with token : ${token}`);
       try {
         let decoded = jwt.verify(token, "Sanjay@1997User");
-        console.log(decoded);
         if (decoded) {
           req.user = decoded;
           next();
@@ -37,7 +36,6 @@ const isAuthenticatedAdmin = async (req: any, res: any, next: any) => {
       infoLog(`Request came with token : ${token}`);
       try {
         let decoded = jwt.verify(token, "Sanjay@1997Admin");
-        console.log(decoded);
         if (decoded) {
           req.user = decoded;
           next();

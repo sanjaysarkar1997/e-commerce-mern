@@ -6,15 +6,13 @@ import bodyParser from "body-parser";
 
 // Files Modules
 import routes from "./router/auth.routes";
-import demoUpdateRoutes from "./router/demoUpdate.routes";
+import productRoutes from "./router/product.routes";
+import reviewRoutes from "./router/review.routes";
 import { success } from "./services/responseModifier";
 import connectMongoDB from "./db/MongoDB";
 import { infoLog } from "./services/logServices";
 import cronRunner from "./services/cronService";
-import demoMiddleWare from "./Middleware/demo.middleware";
 import config from "./config/config";
-
-require("dotenv").config();
 
 const app = express();
 
@@ -28,13 +26,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // CronRunner
-cronRunner();
+// cronRunner();
 
 // Routes
 app.use("/api/v1", routes);
-app.use("/api/v1", demoUpdateRoutes);
+app.use("/api/v1", productRoutes);
+app.use("/api/v1", reviewRoutes);
 
-app.get("/", demoMiddleWare, (req, res) => {
+app.get("/", (req, res) => {
   res.json(success("Node Server on Typescript", [], 200));
 });
 

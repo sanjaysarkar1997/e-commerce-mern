@@ -13,12 +13,12 @@
  */
 
 const success = (message: string, results: any, statusCode: number) => {
-    return {
-        message,
-        error: false,
-        code: statusCode,
-        results,
-    };
+  return {
+    message,
+    error: false,
+    code: statusCode,
+    results,
+  };
 };
 
 /**
@@ -28,21 +28,22 @@ const success = (message: string, results: any, statusCode: number) => {
  * @param   {number} statusCode
  */
 
-const error = (message: string, statusCode: number) => {
-    // List of common HTTP request code
-    const codes = [200, 201, 400, 401, 404, 403, 422, 500];
+const error = (message: string, results: any, statusCode: number) => {
+  // List of common HTTP request code
+  const codes = [200, 201, 400, 401, 404, 403, 422, 500];
 
-    // Get matched code
-    const findCode = codes.find((code) => code == statusCode);
+  // Get matched code
+  const findCode = codes.find((code) => code == statusCode);
 
-    if (!findCode) statusCode = 500;
-    else statusCode = findCode;
+  if (!findCode) statusCode = 500;
+  else statusCode = findCode;
 
-    return {
-        message,
-        code: statusCode,
-        error: true,
-    };
+  return {
+    message,
+    code: statusCode,
+    results,
+    error: true,
+  };
 };
 
 /**
@@ -52,12 +53,12 @@ const error = (message: string, statusCode: number) => {
  */
 
 const validation = (errors: any) => {
-    return {
-        message: "Validation errors",
-        error: true,
-        code: 422,
-        errors,
-    };
+  return {
+    message: "Validation errors",
+    error: true,
+    code: 422,
+    errors,
+  };
 };
 
-export { validation, error, success }
+export { validation, error, success };

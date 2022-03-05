@@ -32,7 +32,7 @@ const userSignUp = async (req: any, res: any, next: any) => {
         });
       }
     } else {
-      res.json(success("Validation Error", errors.array(), 400));
+      res.json(error("Validation Error", errors.array(), 400));
     }
   } catch (error: any) {
     // res.json(error("Failed", 500));
@@ -66,7 +66,7 @@ const userLogin = async (req: any, res: any, next: any) => {
         res.json(error("User Not Found", {}, 404));
       }
     } else {
-      res.json(success("Validation Error", errors, 400));
+      res.json(error("Validation Error", errors, 400));
     }
   } catch (error: any) {
     // res.json(error("Failed", 500));

@@ -20,6 +20,12 @@ export const ProductSchema = new Schema({
   image: {
     type: String,
     required: true,
+    default: "https://bulma.io/images/placeholders/1280x960.png",
+  },
+  images: {
+    type: Array,
+    required: false,
+    default: ["https://bulma.io/images/placeholders/1280x960.png"],
   },
   category: {
     type: String,

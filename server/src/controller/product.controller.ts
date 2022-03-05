@@ -54,8 +54,10 @@ const getProduct = async (req: any, res: any, next: any) => {
       "name",
       "description",
       "price",
-      "imageUrl",
+      "image",
       "isDeleted",
+      "images",
+      "slug",
     ]);
     let reviews = await Review.find({ productId: req.params.id }).select([
       "-__v",

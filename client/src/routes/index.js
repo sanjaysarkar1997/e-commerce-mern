@@ -4,10 +4,12 @@ import SignUp from "../pages/SignUp.vue";
 import SignIn from "../pages/SignIn.vue";
 import HomePage from "../pages/HomePage.vue";
 import SingleProduct from "../pages/SingleProduct.vue";
+import MyAccount from "../pages/MyAccount.vue";
+import CartPage from "../pages/CartPage.vue";
+import guardMyroute from "@/services/authGuard";
 
 // 1. Define route components.
 // These can be imported from other files
-
 
 // 2. Define some routes
 const routes = [
@@ -16,7 +18,19 @@ const routes = [
   { path: "/login", component: SignIn, Name: "SignIn" },
   { path: "/", component: HomePage, Name: "HomePage" },
   { path: "*", redirect: "/" },
-  { path:"/home",redirect:"/"}
+  { path: "/home", redirect: "/" },
+
+  {
+    path: "/my-account",
+    component: MyAccount,
+    Name: "MyAccount",
+    beforeEnter: guardMyroute,
+  },
+  {
+    path: "/cart",
+    component: CartPage,
+    Name: "Cart",
+  },
 ];
 
 // 3. Create the router instance and pass the `routes` option

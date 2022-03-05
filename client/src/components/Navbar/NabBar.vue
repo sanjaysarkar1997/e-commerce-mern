@@ -22,12 +22,23 @@
         <b-navbar-item>
           <router-link to="/contact">Contact</router-link>
         </b-navbar-item>
+        <b-navbar-item>
+          <router-link to="/my-account">My Account</router-link>
+        </b-navbar-item>
+        <b-navbar-item @click="logout()">Logout</b-navbar-item>
       </b-navbar-dropdown>
     </template>
 
     <template #end>
-      <b-navbar-item tag="div">
-        <div class="buttons">
+      <b-navbar-item tag="div" :key="$router.history.current.path">
+        <div class="buttons" v-if="token">
+          <b-button
+            icon-right="shopping-cart"
+            icon-pack="fas"
+            @click="goToCart()"
+          />
+        </div>
+        <div class="buttons" v-else :key="token">
           <router-link to="sign-up" class="button is-primary">
             <strong>Sign up</strong>
           </router-link>
@@ -40,5 +51,40 @@
 <script>
 export default {
   name: "NavBar",
+  data() {
+    return {
+      token: "",
+    };
+  },
+
+  methods: {
+    getToken() {
+      if (localStorage.getItem("vue-node-token")) {
+        this.token = localStorage.getItem("vue-node-token");
+        return true;
+      } else {
+        this.token = "";
+        return false;
+      }
+    },
+    goToCart() {
+      this.$router.push("/cart").catch(() => {});
+    },
+    logout() {
+      localStorage.removeItem("vue-node-token");
+      this.$router.push("/").catch(() => {});
+    },
+  },
+
+  updated() {
+    this.getToken();
+    console.log("NavBar updated");
+  },
+
+  mounted() {
+    console.log("NavBar mounted");
+    console.log("Router", this.$router.history.current.path);
+    this.getToken();
+  },
 };
 </script>

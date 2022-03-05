@@ -14,14 +14,15 @@
       </nav>
 
       <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img
-              src="https://bulma.io/images/placeholders/1280x960.png"
-              alt="Placeholder image"
-            />
-          </figure>
-        </div>
+        <b-carousel>
+          <b-carousel-item v-for="(carousel, i) in product.images" :key="i">
+            <section>
+              <div class="hero-body has-text-centered">
+                <img :src="carousel" alt="Placeholder image" />
+              </div>
+            </section>
+          </b-carousel-item>
+        </b-carousel>
         <div class="card-content">
           <div class="media">
             <div class="media-left">
@@ -38,10 +39,25 @@
             </div>
           </div>
 
-          <div class="content">
-            {{ product.description }}
-            <br />
-            <time datetime="2016-1-1">{{ product.createdAt }}</time>
+          <div class="columns">
+            <div class="column">
+              <div class="content">
+                {{ product.description }}
+                <br />
+                <time datetime="2016-1-1">{{ product.createdAt }}</time>
+              </div>
+            </div>
+            <div class="column">
+              <b-button
+                style="float: right"
+                type="is-success"
+                :disabled="isAdded(product._id) && 'true'"
+                @click="addToCart(product)"
+                >{{
+                  isAdded(product._id) ? "Added To Cart" : "Add to Cart"
+                }}</b-button
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -51,6 +67,7 @@
 
 <script>
 import { getServices } from "../services/httpServices";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "SingleProduct",
@@ -60,12 +77,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["increment", "decrement", "addToCart"]),
     async created() {
       const { ok, message, data } = await getServices(
         `/api/v1/get-product/${this.$route.params.id}`
       );
       if (ok) {
-        console.log("data", data);
         this.product = data;
       } else {
         this.$buefy.toast.open({
@@ -73,9 +90,20 @@ export default {
         });
       }
     },
+    isAdded(id) {
+      console.log("id", id);
+      if (this.$store.state.cartValue.find((item) => item._id === id)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
+  computed: mapGetters(["evenOrOdd"]),
+
   mounted() {
     this.created();
+    console.log("this.product", this.$store.state);
   },
 };
 </script>

@@ -9,11 +9,7 @@
         </b-field>
 
         <b-field label="Password">
-          <b-input
-            type="password"
-            v-model="password"
-            password-reveal
-          >
+          <b-input type="password" v-model="password" password-reveal>
           </b-input>
         </b-field>
         <b-button v-on:click="submit()" type="is-primary">Login</b-button>
@@ -24,6 +20,7 @@
 
 <script>
 import { postServices } from "../services/httpServices";
+import { mapActions } from "vuex";
 
 export default {
   name: "SignIn",
@@ -34,6 +31,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setUserDetails"]),
     async submit() {
       console.log("submit", this.email, this.password);
 
@@ -44,6 +42,7 @@ export default {
       if (ok) {
         console.log("data", data);
         localStorage.setItem("vue-node-token", data.token);
+        this.setUserDetails(data.user);
         this.$buefy.toast.open({
           message: "Login Success",
           type: "is-success",

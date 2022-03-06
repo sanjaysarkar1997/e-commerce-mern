@@ -30,13 +30,17 @@
     </template>
 
     <template #end>
-      <b-navbar-item tag="div" :key="$router.history.current.path">
-        <div class="buttons" v-if="token">
+      <b-navbar-item tag="div">
+        <div
+          class="buttons"
+          v-if="Object.keys($store.state.userDetails).length"
+        >
           <b-button
             icon-right="shopping-cart"
             icon-pack="fas"
             @click="goToCart()"
-          />
+            >{{ $store.state.cartValue.length }}</b-button
+          >
         </div>
         <div class="buttons" v-else :key="token">
           <router-link to="sign-up" class="button is-primary">
@@ -49,6 +53,7 @@
   </b-navbar>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "NavBar",
   data() {
@@ -58,6 +63,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(["setUserDetails"]),
     getToken() {
       if (localStorage.getItem("vue-node-token")) {
         this.token = localStorage.getItem("vue-node-token");
@@ -72,19 +78,14 @@ export default {
     },
     logout() {
       localStorage.removeItem("vue-node-token");
+      this.setUserDetails({});
       this.$router.push("/").catch(() => {});
     },
   },
 
-  updated() {
-    this.getToken();
-    console.log("NavBar updated");
-  },
-
   mounted() {
-    console.log("NavBar mounted");
-    console.log("Router", this.$router.history.current.path);
     this.getToken();
+    console.log("NavBar updated", this.$store.state.userDetails);
   },
 };
 </script>

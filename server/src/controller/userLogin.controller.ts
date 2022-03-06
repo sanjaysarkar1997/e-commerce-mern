@@ -48,6 +48,10 @@ const userLogin = async (req: any, res: any, next: any) => {
     if (errors.isEmpty()) {
       const user = await User.findOne({ email: data.email });
       if (user) {
+        delete user.password;
+        delete user.__v;
+        delete user._id;
+
         bcrypt.compare(
           data.password,
           user.password,
@@ -56,7 +60,7 @@ const userLogin = async (req: any, res: any, next: any) => {
               const token = jwt.sign({ id: user._id }, "Sanjay@1997User", {
                 expiresIn: "1h",
               });
-              res.json(success("Login Successful", { token }, 200));
+              res.json(success("Login Successful", { token, user }, 200));
             } else {
               res.json(error("Password is not valid", {}, 401));
             }

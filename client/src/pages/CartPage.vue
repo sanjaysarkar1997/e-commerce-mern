@@ -4,14 +4,34 @@
       <div class="column is-12" v-for="product of products" :key="product._id">
         <div class="box">
           <img :src="product.image" :alt="product.name" />
-          <div>
-            {{ product.name }}
+          <div style="display: flex; justify-content: space-between">
+            <div style="line-height: 40px">
+              <span class="title is-6"> {{ product.name }}</span> - Qty:
+              <span class="title is-6">{{ product.quantity }}</span> - Price:
+              <span class="title is-6">{{ product.price }}</span> - Total:
+              <span class="title is-6">{{
+                product.quantity * product.price
+              }}</span>
+            </div>
+            <b-button
+              type="is-danger"
+              @click="removeFromCart(product._id)"
+              icon-right="delete"
+            />
           </div>
-          <b-button
-            type="is-danger"
-            @click="removeFromCart(product._id)"
-            icon-right="delete"
-          />
+        </div>
+      </div>
+      <div class="column is-12" v-if="products.length">
+        <div class="box">
+          <div style="display: flex; justify-content: space-between">
+            <div style="line-height: 40px">
+              Total:
+              <span class="title is-6">{{ getTotal(products) }}</span>
+            </div>
+            <b-button type="is-success" @click="goToCheckout()"
+              >Checkout</b-button
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -43,6 +63,16 @@ export default {
     ...mapActions(["removeFromCart"]),
     goToHome() {
       this.$router.push("/").catch(() => {});
+    },
+
+    goToCheckout() {
+      this.$router.push("/checkout").catch(() => {});
+    },
+
+    getTotal(products) {
+      return products.reduce((acc, product) => {
+        return acc + product.quantity * product.price;
+      }, 0);
     },
   },
 

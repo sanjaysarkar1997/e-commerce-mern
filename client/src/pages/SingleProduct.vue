@@ -47,12 +47,25 @@
                 <time datetime="2016-1-1">{{ product.createdAt }}</time>
               </div>
             </div>
-            <div class="column">
+            <div class="column is-2">
+              <div class="" style="display: flex">
+                <b-button @click="increment()"> + </b-button>
+                <b-input type="text" v-model="quantity" placeholder="Quantity">
+                </b-input>
+                <b-button
+                  :disabled="quantity === 1 && 'true'"
+                  @click="decrement()"
+                >
+                  -
+                </b-button>
+              </div>
+            </div>
+            <div class="column is-2">
               <b-button
                 style="float: right"
                 type="is-success"
                 :disabled="isAdded(product._id) && 'true'"
-                @click="addToCart(product)"
+                @click="addToCart({ ...product, quantity: quantity })"
                 >{{
                   isAdded(product._id) ? "Added To Cart" : "Add to Cart"
                 }}</b-button
@@ -74,6 +87,7 @@ export default {
   data() {
     return {
       product: {},
+      quantity: 1,
     };
   },
   methods: {
@@ -90,6 +104,18 @@ export default {
         });
       }
     },
+
+    increment() {
+      this.quantity++;
+      this.product.quantity = this.quantity;
+    },
+
+    decrement() {
+      if (this.quantity > 1) {
+        this.quantity--;
+      }
+    },
+
     isAdded(id) {
       console.log("id", id);
       if (this.$store.state.cartValue.find((item) => item._id === id)) {
@@ -103,7 +129,6 @@ export default {
 
   mounted() {
     this.created();
-    console.log("this.product", this.$store.state);
   },
 };
 </script>

@@ -33,7 +33,7 @@ export const postServicesWithToken = async (url, data) => {
   try {
     const res = await instance.post(url, data, {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: "Bearer " + localStorage.getItem("vue-node-token"),
       },
     });
 
@@ -52,14 +52,14 @@ export const getServicesWithToken = async (url) => {
   try {
     const res = await instance.get(url, {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: "Bearer " + localStorage.getItem("vue-node-token"),
       },
     });
 
     if (res.data.error) {
       return { ok: false, data: [], message: res.data.error };
     } else {
-      return { ok: true, data: res.data.result, message: res.data.message };
+      return { ok: true, data: res.data.results, message: res.data.message };
     }
   } catch (error) {
     return { ok: false, data: [], message: error };

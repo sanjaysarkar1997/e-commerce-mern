@@ -7,20 +7,14 @@
           <div class="card">
             <div class="card-image">
               <figure class="image is-4by3">
-                <img
-                  :src="product.image"
-                  :alt="product.name"
-                />
+                <img :src="product.image" :alt="product.name" />
               </figure>
             </div>
             <div class="card-content">
               <div class="media">
                 <div class="media-left">
                   <figure class="image is-48x48">
-                    <img
-                      :src="product.image"
-                      :alt="product.name"
-                    />
+                    <img :src="product.image" :alt="product.name" />
                   </figure>
                 </div>
                 <div class="media-content">
@@ -58,7 +52,6 @@ export default {
         "/api/v1/get-all-active-products"
       );
       if (ok) {
-        console.log("data", data);
         this.products = data;
       } else {
         this.$buefy.toast.open({

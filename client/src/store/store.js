@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const state = {
   count: 0,
   cartValue: [],
+  userDetails: {},
 };
 
 const getters = {
@@ -31,6 +32,10 @@ const mutations = {
     const index = state.cartValue.findIndex((item) => item._id === payload);
     state.cartValue.splice(index, 1);
   },
+
+  setUserDetails(state, payload) {
+    state.userDetails = payload;
+  },
 };
 
 const actions = {
@@ -38,6 +43,7 @@ const actions = {
   decrement: ({ commit }) => commit("decrement"),
   addToCart: ({ commit }, payload) => commit("addToCart", payload),
   removeFromCart: ({ commit }, payload) => commit("removeFromCart", payload),
+  setUserDetails: ({ commit }, payload) => commit("setUserDetails", payload),
 };
 
 export default new Vuex.Store({

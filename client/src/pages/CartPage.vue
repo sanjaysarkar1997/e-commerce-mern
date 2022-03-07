@@ -3,21 +3,32 @@
     <div class="columns is-multiline">
       <div class="column is-12" v-for="product of products" :key="product._id">
         <div class="box">
-          <img :src="product.image" :alt="product.name" />
-          <div style="display: flex; justify-content: space-between">
-            <div style="line-height: 40px">
-              <span class="title is-6"> {{ product.name }}</span> - Qty:
-              <span class="title is-6">{{ product.quantity }}</span> - Price:
-              <span class="title is-6">{{ product.price }}</span> - Total:
-              <span class="title is-6">{{
-                product.quantity * product.price
-              }}</span>
+          <div class="columns">
+            <div class="column is-3">
+              <img :src="product.image" :alt="product.name" />
             </div>
-            <b-button
-              type="is-danger"
-              @click="removeFromCart(product._id)"
-              icon-right="delete"
-            />
+            <div class="column is-9">
+              <div style="display: flex; justify-content: space-between">
+                <div style="line-height: 40px">
+                  Name :
+                  <span class="title is-6"> {{ product.name }}</span>
+                  <br />
+                  Qty:
+                  <span class="title is-6">{{ product.quantity }}</span> <br />
+                  Price: <span class="title is-6">{{ product.price }}</span>
+                  <br />
+                  Total:
+                  <span class="title is-6">{{
+                    product.quantity * product.price
+                  }}</span>
+                </div>
+                <b-button
+                  type="is-danger"
+                  @click="removeFromCart(product._id)"
+                  icon-right="delete"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

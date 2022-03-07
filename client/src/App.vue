@@ -35,6 +35,7 @@ export default {
           this.setUserDetails(data);
         } else {
           this.userDetails = null;
+          localStorage.removeItem("vue-node-token");
         }
       } catch (error) {
         console.log(error);

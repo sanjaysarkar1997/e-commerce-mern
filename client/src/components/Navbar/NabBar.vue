@@ -31,22 +31,27 @@
 
     <template #end>
       <b-navbar-item tag="div">
-        <div
-          class="buttons"
-          v-if="Object.keys($store.state.userDetails).length"
-        >
+        <div class="buttons">
           <b-button
             icon-right="shopping-cart"
             icon-pack="fas"
             @click="goToCart()"
             >{{ $store.state.cartValue.length }}</b-button
           >
-        </div>
-        <div class="buttons" v-else :key="token">
-          <router-link to="sign-up" class="button is-primary">
+          <router-link
+            to="sign-up"
+            class="button is-primary"
+            v-if="!Object.keys($store.state.userDetails).length"
+          >
             <strong>Sign up</strong>
           </router-link>
-          <router-link to="login" class="button is-light"> Log in </router-link>
+          <router-link
+            to="login"
+            class="button is-light"
+            v-if="!Object.keys($store.state.userDetails).length"
+          >
+            Log in
+          </router-link>
         </div>
       </b-navbar-item>
     </template>

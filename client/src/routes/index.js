@@ -6,6 +6,8 @@ import HomePage from "../pages/HomePage.vue";
 import SingleProduct from "../pages/SingleProduct.vue";
 import MyAccount from "../pages/MyAccount.vue";
 import CartPage from "../pages/CartPage.vue";
+import CheckoutPage from "../pages/Checkout.vue";
+
 import guardMyroute from "@/services/authGuard";
 
 // 1. Define route components.
@@ -30,6 +32,12 @@ const routes = [
     path: "/cart",
     component: CartPage,
     Name: "Cart",
+  },
+  {
+    path: "/checkout",
+    component: CheckoutPage,
+    Name: "Checkout",
+    beforeEnter: guardMyroute,
   },
 ];
 

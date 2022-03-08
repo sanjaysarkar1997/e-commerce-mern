@@ -1,19 +1,21 @@
 <template>
   <div class="container">
-    <div class="columns">
-      <form style="min-width: 400px">
-        <h1 style="text-align: center">Vue Node E-Commerce User Login</h1>
-        <br />
-        <b-field label="Email">
-          <b-input value="" v-model="email" maxlength="30"></b-input>
-        </b-field>
+    <div class="columns" style="margin: auto">
+      <div class="column is-12">
+        <form style="min-width: 400px">
+          <h1 style="text-align: center">Vue Node E-Commerce User Login</h1>
+          <br />
+          <b-field label="Email">
+            <b-input value="" v-model="email" maxlength="30"></b-input>
+          </b-field>
 
-        <b-field label="Password">
-          <b-input type="password" v-model="password" password-reveal>
-          </b-input>
-        </b-field>
-        <b-button v-on:click="submit()" type="is-primary">Login</b-button>
-      </form>
+          <b-field label="Password">
+            <b-input type="password" v-model="password" password-reveal>
+            </b-input>
+          </b-field>
+          <b-button v-on:click="submit()" type="is-primary">Login</b-button>
+        </form>
+      </div>
     </div>
   </div>
 </template>

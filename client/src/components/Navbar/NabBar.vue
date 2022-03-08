@@ -90,7 +90,6 @@ export default {
 
   mounted() {
     this.getToken();
-    console.log("NavBar updated", this.$store.state.userDetails);
   },
 };
 </script>

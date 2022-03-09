@@ -31,7 +31,11 @@ const createProduct = async (req: any, res: any, next: any) => {
 const getAllProducts = async (req: any, res: any, next: any) => {
   try {
     let products = await Product.find({});
-    res.json(success("Products", products, 200));
+    if (products?.length === 0) {
+      res.json(error("No Products Found", [], 404));
+    } else {
+      res.json(success("Products", products, 200));
+    }
   } catch (error: any) {
     res.json(error("Failed", error, 500));
   }
@@ -49,6 +53,7 @@ const getAllActiveProducts = async (req: any, res: any, next: any) => {
 
 // get a single product from the database with async await
 const getProduct = async (req: any, res: any, next: any) => {
+  
   try {
     let product = await Product.findById(req.params.id).select([
       "name",

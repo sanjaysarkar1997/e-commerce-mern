@@ -15,11 +15,10 @@ import guardMyroute from "@/services/authGuard";
 
 // 2. Define some routes
 const routes = [
-  { path: "/product/:id", component: SingleProduct, Name: "SingleProduct" },
+  { path: "*", redirect: "/" },
+  { path: "/", component: HomePage, Name: "HomePage" },
   { path: "/sign-up", component: SignUp, Name: "SignUp" },
   { path: "/login", component: SignIn, Name: "SignIn" },
-  { path: "/", component: HomePage, Name: "HomePage" },
-  { path: "*", redirect: "/" },
   { path: "/home", redirect: "/" },
 
   {
@@ -38,6 +37,11 @@ const routes = [
     component: CheckoutPage,
     Name: "Checkout",
     beforeEnter: guardMyroute,
+  },
+  {
+    path: "/product/:id",
+    component: SingleProduct,
+    Name: "SingleProduct",
   },
 ];
 

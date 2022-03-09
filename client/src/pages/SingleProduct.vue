@@ -137,7 +137,8 @@
 </template>
 
 <script>
-import { getServices } from "../services/httpServices";
+import { getServices, postServicesWithToken } from "../services/httpServices";
+import isUserLogged from "../services/isUserLogged";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -168,25 +169,35 @@ export default {
     },
 
     async submitReview() {
-      console.log(this.name, this.submitRating);
-      // const { ok, message, data } = await postServicesWithToken(
-      //   `/api/v1/submit-review/${this.$route.params.id}`,
-      //   {
-      //     name: this.name,
-      //     rating: this.rating,
-      //     review: this.review,
-      //   }
-      // );
-      // if (ok) {
-      //   this.product.reviews.push(data);
-      //   this.calculatedRating(this.product.reviews);
-      //   this.name = "";
-      //   this.review = "";
-      // } else {
-      //   this.$buefy.toast.open({
-      //     message: message,
-      //   });
-      // }
+      if (isUserLogged()) {
+        const { ok, message, data } = await postServicesWithToken(
+          `/api/v1/create-review`,
+          {
+            userId: this.$store.state.userDetails._id,
+            rating: this.submitRating,
+            review: this.name,
+            productId: this.$route.params.id,
+          }
+        );
+        if (ok) {
+          this.$buefy.toast.open({
+            message: message,
+          });
+          this.product.reviews.push(data);
+          this.calculatedRating(this.product.reviews);
+          this.name = "";
+          this.review = "";
+          this.submitRating = 0;
+        } else {
+          this.$buefy.toast.open({
+            message: message,
+          });
+        }
+      } else {
+        this.$buefy.toast.open({
+          message: "Please Login to submit a review",
+        });
+      }
     },
 
     increment() {

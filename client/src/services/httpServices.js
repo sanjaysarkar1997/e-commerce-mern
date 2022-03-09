@@ -40,7 +40,7 @@ export const postServicesWithToken = async (url, data) => {
     if (res.data.error) {
       return { ok: false, data: [], message: res.data.error };
     } else {
-      return { ok: true, data: res.data.result, message: res.data.message };
+      return { ok: true, data: res.data.results, message: res.data.message };
     }
   } catch (error) {
     return { ok: false, data: [], message: error };

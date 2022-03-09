@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { errorLog } from "../services/logServices";
 import bcrypt from "bcrypt";
 import { User } from "../model/user.modal";
+import { Review } from "../model/review.model";
 
 // admin signup controller with async await
 const userSignUp = async (req: any, res: any, next: any) => {
@@ -46,11 +47,16 @@ const userLogin = async (req: any, res: any, next: any) => {
   try {
     const errors = await validationResult(req);
     if (errors.isEmpty()) {
-      const user = await User.findOne({ email: data.email });
+      let user = await User.findOne({ email: data.email });
       if (user) {
         delete user.password;
         delete user.__v;
-        delete user._id;
+
+        const reviews = await Review.find({ userId: user.id }).select([
+          "-_id",
+          "rating",
+          "review",
+        ]);
 
         bcrypt.compare(
           data.password,
@@ -58,8 +64,9 @@ const userLogin = async (req: any, res: any, next: any) => {
           (err: any, result: any) => {
             if (result) {
               const token = jwt.sign({ id: user._id }, "Sanjay@1997User", {
-                expiresIn: "1h",
+                expiresIn: "1w",
               });
+              user.reviews = reviews;
               res.json(success("Login Successful", { token, user }, 200));
             } else {
               res.json(error("Password is not valid", {}, 401));
@@ -81,13 +88,19 @@ const userLogin = async (req: any, res: any, next: any) => {
 // get user by data controller with async await
 const getUserDetails = async (req: any, res: any, next: any) => {
   try {
-    const user = await User.findById(req.user.id).select([
-      "-password",
-      "-__v",
+    let user = await User.findById(req.user.id).select(["-password", "-__v"]);
+    const reviews = await Review.find({ userId: req.user.id }).select([
+      "rating",
+      "review",
       "-_id",
     ]);
+
     if (user) {
-      res.json(success("User Found", user, 200));
+      let data = {
+        ...user._doc,
+        reviews,
+      };
+      res.json(success("User Found", data, 200));
     } else {
       res.json(error("User Not Found", {}, 404));
     }

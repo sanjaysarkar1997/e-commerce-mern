@@ -38,7 +38,7 @@ const mutations = {
   },
 };
 
-const actions = {
+const actions = { 
   increment: ({ commit }) => commit("increment"),
   decrement: ({ commit }) => commit("decrement"),
   addToCart: ({ commit }, payload) => commit("addToCart", payload),
